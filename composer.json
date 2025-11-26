@@ -1,0 +1,24 @@
+{
+    "name": "myweeklyallowance/app",
+    "description": "Module MyWeeklyAllowance",
+    "require-dev": {
+        "phpunit/phpunit": "^10"
+    },
+    "authors": [
+        {
+            "name": "Victor",
+            "email": "victor@example.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "MyWeeklyAllowance\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "MyWeeklyAllowance\\Tests\\": "tests/"
+        }
+    }
+}
