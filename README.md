@@ -2,7 +2,7 @@
 
 Module de gestion d'argent de poche pour adolescents, développé selon la méthode TDD (Test Driven Development).
 
-## Auteur
+## Groupe
 
 **Victor Chabeau**
 
