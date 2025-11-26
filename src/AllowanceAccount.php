@@ -11,16 +11,20 @@ final class AllowanceAccount
 {
     private int $balance = 0;
 
-    /** @var array<int, array{type:string, amount:int, label?:string}> */
+    /** @var array<int, array{type:string, amount:int, label?:string, occurred_at:string}> */
     private array $history = [];
+    private Clock $clock;
 
     public function __construct(
         private readonly string $teenId,
-        private readonly int $weeklyAllowance
+        private readonly int $weeklyAllowance,
+        ?Clock $clock = null
     ) {
         if ($weeklyAllowance <= 0) {
             throw new InvalidArgumentException('Weekly allowance must be positive.');
         }
+
+        $this->clock = $clock ?? new SystemClock();
     }
 
     public function getBalance(): int
@@ -34,7 +38,7 @@ final class AllowanceAccount
     }
 
     /**
-     * @return array<int, array{type:string, amount:int, label?:string}>
+     * @return array<int, array{type:string, amount:int, label?:string, occurred_at:string}>
      */
     public function getHistory(): array
     {
@@ -51,6 +55,7 @@ final class AllowanceAccount
         $this->history[] = [
             'type' => 'deposit',
             'amount' => $amount,
+            'occurred_at' => $this->clock->now(),
         ];
     }
 
@@ -69,6 +74,7 @@ final class AllowanceAccount
             'type' => 'expense',
             'amount' => $amount,
             'label' => $label,
+            'occurred_at' => $this->clock->now(),
         ];
     }
 
@@ -78,6 +84,7 @@ final class AllowanceAccount
         $this->history[] = [
             'type' => 'weekly_allowance',
             'amount' => $this->weeklyAllowance,
+            'occurred_at' => $this->clock->now(),
         ];
     }
 }
