@@ -20,6 +20,21 @@ final class AllowanceAccountTest extends TestCase
         $this->assertSame(1000, $account->getWeeklyAllowance());
     }
 
+    public function testWeeklyAllowanceMustBePositive(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+        new AllowanceAccount('teen-1', 0, new TestClock());
+    }
+
+    public function testExpenseAmountMustBePositive(): void
+    {
+        $account = new AllowanceAccount('teen-1', 1000, new TestClock());
+        $account->deposit(500);
+
+        $this->expectException(InvalidArgumentException::class);
+        $account->recordExpense(0, 'test');
+    }
+
     public function testDepositIncreasesBalance(): void
     {
         $account = new AllowanceAccount('teen-1', 1000, new TestClock());
